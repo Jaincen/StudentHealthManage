@@ -252,12 +252,13 @@ async function signUp(event) {
 		0:'teachers',
 		1:'students',
 		2:'parents',
+		3:'admin_users',
 	};
 	const userDBkye = userOptionDB[TabCur];
 
 	const userInDB = await db.collection(userDBkye).where({
 		username,
-		password:encryptPassword(password)
+		password: userDBkye === 'admin_users' ? password : encryptPassword(password),
 	}).get();
 
 	let tokenSecret = crypto.randomBytes(16).toString('hex'),

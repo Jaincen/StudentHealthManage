@@ -1,3 +1,4 @@
+<!-- 用户登录 邯郸-vue node -->
 <template>
 	<div>
 		<div>
@@ -34,6 +35,13 @@
 				<swiper-item key="parents">
 					<view class="desc">
 						<view>家长登录可辅助学生进行监控状况填写</view>
+					</view>
+				</swiper-item>
+				
+				<!-- 管理员 -->
+				<swiper-item key="admin">
+					<view class="desc">
+						<view>管理员模式</view>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -75,6 +83,10 @@
 					},
 					{
 						name: '家长',
+						icon: 'cuIcon-wifi'
+					},
+					{
+						name: '管理员',
 						icon: 'cuIcon-wifi'
 					}
 				],

@@ -77,6 +77,9 @@ async function login(event) {
 
 	return {
 		status: -1,
+		data:{
+			
+		},
 		msg: '未注册，请先注册'
 	}
 }

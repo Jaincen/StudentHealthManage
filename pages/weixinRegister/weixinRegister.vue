@@ -1,3 +1,4 @@
+<!-- 微信注册 邯郸-vue node -->
 <template>
 	<div>
 		<div>
