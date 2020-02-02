@@ -272,9 +272,9 @@ async function login(event) {
 	};
 	const userDBkye = userOptionDB[event.TabCur];
 
-	let tokenSecret = crypto.randomBytes(16).toString('hex'),
-		token = jwtSimple.encode(userInfo, tokenSecret);
-
+	let tokenSecret = crypto.randomBytes(16).toString('hex');
+	let secretKey = Object.assign(userInfo,{TabCur:event.TabCur});
+	let token = jwtSimple.encode(secretKey, tokenSecret);
 	const userInDB = await db.collection(userDBkye).where({
 		openid
 	}).get();

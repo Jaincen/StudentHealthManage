@@ -3,7 +3,17 @@ import jwt from 'jwt-simple'
 const db = uniCloud.database()
 async function validateToken(token) {
 	const userFromToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
-	const userInDB = await db.collection('user').where(userFromToken).get()
+	const { TabCur, ...others } = userFromToken;
+	// 根据tab类型匹配对应用户表
+	const userOptionDB = {
+		0:'teachers',
+		1:'students',
+		2:'parents',
+		3:'admin_users',
+	}
+	const userDBkye = userOptionDB[TabCur];
+	const userInDB = await db.collection(userDBkye).where(others).get()
+	
 	if (userInDB.data.length !== 1) {
 		return {
 			status: -1,
@@ -26,8 +36,7 @@ async function validateToken(token) {
 	if (userInfoDB.exp > Date.now() && checkUser(userFromToken, userInfoDB)) {
 		return {
 			statue: 0,
-			openid: userInfoDB.openid,
-			userId: userInfoDB.userId,
+			data:userInfoDB,
 			msg: 'token验证成功'
 		}
 	}

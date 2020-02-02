@@ -260,7 +260,7 @@ async function signUp(event) {
 		username,
 		password: userDBkye === 'admin_users' ? password : encryptPassword(password),
 	}).get();
-
+	userInfo.TabCur = TabCur;
 	let tokenSecret = crypto.randomBytes(16).toString('hex'),
 		token = jwtSimple.encode(userInfo, tokenSecret);
 	let userUpdateResult;

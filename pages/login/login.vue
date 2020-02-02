@@ -147,7 +147,6 @@
 					})
 				})
 			},
-			// #ifdef MP-WEIXIN
 			loginMp() {
 				uni.showLoading({
 					title: '登录中...'
@@ -199,7 +198,6 @@
 					})
 				})
 			},
-			// #endif
 			validateToken() {
 				uni.showLoading({
 					title: '加载中...'
