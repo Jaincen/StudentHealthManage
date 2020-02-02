@@ -35,8 +35,8 @@
 <script>
 const $apis = uniCloud.init({
 	provider: 'aliyun',
-	spaceId: '88014732-6096-44c5-8b84-bd5ab3c0cd28',
-	clientSecret: 'GbwdCQbRVPW6HXzE/3qTDg=='
+	spaceId: '',
+	clientSecret: ''
 });
 export default {
 	data() {
