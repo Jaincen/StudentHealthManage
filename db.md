@@ -99,7 +99,8 @@ Tips：支持一个学生关联多个家长，可能每次报备的家长不同�
 daily_report_log
 {
     _id: "", // string，自生成
-	create_time: 0, // int 时间戳 GMT
+    create_time: 0, // int 时间戳 GMT
+    class_id:"",//string 班级标志
 	stu_id: "", // string 学生唯一标识，可选
     stu_num:"",//学号
     stu_name: "", // string 学生姓名
