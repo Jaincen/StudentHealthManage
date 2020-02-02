@@ -19,40 +19,34 @@
 				<!-- 老师 -->
 				<swiper-item key="teacher">
 					<view class="desc">
-						<view>老师登录后可查看自己班级的学生监控状况</view>
+						<view>老师注册后可查看自己班级的学生监控状况</view>
 					</view>
 				</swiper-item>
 				
 				<!-- 学生 -->
 				<swiper-item key="students">
 					<view class="desc">
-						<view>学生登录后可关联自己的班级上报健康状况</view>
+						<view>学生注册后可关联自己的班级上报健康状况</view>
 					</view>
 				</swiper-item>
 
 				<!-- 家长 -->
 				<swiper-item key="parents">
 					<view class="desc">
-						<view>家长登录可辅助学生进行监控状况填写</view>
+						<view>家长注册可辅助学生进行监控状况填写</view>
 					</view>
 				</swiper-item>
 			</swiper>
 			<view class="login-form">
 				<input type="text" value="" placeholder="请输入用户名" v-model="username" />
 				<input type="text" value="" placeholder="请输入密码" password="true" v-model="password" />
+				<input type="text" value="" placeholder="请再次确认密码" password="true" v-model="repeatPassword" />
 				<div class="buttonGroup">
-					<button type="primary" @click="signIn">登录</button>
+					<button type="primary" @click="bindUser">绑定</button>
 				</div>
-				<navigator url="/pages/register/register" class="linkBtn" >
-					<text >没有账号？前往注册</text>
+				<navigator url="/pages/login/login" class="linkBtn" >
+					<text>已有账号？点击登录 </text>
 				</navigator>
-				<!-- #ifdef MP-WEIXIN -->
-				<div class="weixinBtn">
-					<div>其他方式登录</div>
-					<uni-icons type="weixin" @click="loginMp" color="#007AFF" size="30"></uni-icons>
-				</div>
-				<!-- #endif -->
-				<!-- <button type="primary" @click="validateToken">token验证</button> -->
 			</view>
 		</view>
 	</div>
@@ -60,11 +54,14 @@
 <script>
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
+
 	export default {
 		data() {
 			return {
 				username: '',
 				password: '',
+				code:'',
+				repeatPassword:'',
 				tabList: [{
 						name: '老师',
 						icon: 'cuIcon-comment'
@@ -92,12 +89,22 @@
 			tabChange(index) {
 				this.TabCur = index;
 			},
-			signIn() {
+			bindUser() {
 				const {
 					username,
 					password,
+					repeatPassword,
 					TabCur,
+					code,
 				} = this
+				
+				if(repeatPassword !== password){
+					uni.showModal({
+						content: '两次密码不一致',
+						showCancel: false
+					})
+					return
+				}
 				if (username.length < 6 || password.length < 6) {
 					uni.showModal({
 						content: '用户名密码长度均不能小于6',
@@ -106,67 +113,37 @@
 					return
 				}
 				uni.showLoading({
-					title: '登录中...'
-				})
-				this.$cloud.callFunction({
-					name: 'signIn',
-					data: {
-						username,
-						password,
-						TabCur,
-					},
-				}).then((res) => {
-					console.log(res);
-					uni.hideLoading()
-					if (res.result.status !== 0) {
-						return Promise.reject(new Error(res.result.msg))
-					}
-					uni.setStorageSync('token', res.result.token)
-					uni.showModal({
-						content: '登录成功',
-						showCancel: false
-					})
-				}).catch((err) => {
-					console.log(err);
-					uni.hideLoading()
-					uni.showModal({
-						content: '登录失败，' + err.message,
-						showCancel: false
-					})
-				})
-			},
-			// #ifdef MP-WEIXIN
-			loginMp() {
-				uni.showLoading({
-					title: '登录中...'
+					title: '注册中...'
 				})
 				
 				this.getCode().then((code) => {
-					console.log('code', code);
-					const { TabCur } = this;
-					return this.$cloud.callFunction({
-						name: 'login',
-						data: {
-							code,
-							TabCur,
-						}
-					})
+					this.code = code;
 				}).then((res) => {
-					uni.hideLoading()
-					console.log(res);
-					if (res.result.status !== 0) {
-						return Promise.reject(new Error(res.result.msg))
-					}
-					uni.setStorageSync('token', res.result.token)
-					uni.showModal({
-						content: '登录成功',
-						showCancel: false
-					})
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: '出现错误，请稍后再试.' + err.message,
-						showCancel: false
+					this.$cloud.callFunction({
+						name: 'wexinSingUp',
+						data: {
+							username,
+							password,
+							code:this.code,
+							TabCur,
+						},
+					}).then((res) => {
+						uni.hideLoading()
+						console.log(res)
+						if (res.result.status !== 0) {
+							return Promise.reject(new Error(res.result.msg))
+						}
+						uni.setStorageSync('token', res.result.token)
+						uni.showModal({
+							content: '注册成功',
+							showCancel: false
+						})
+					}).catch((err) => {
+						uni.hideLoading()
+						uni.showModal({
+							content: '注册失败，' + err.message,
+							showCancel: false
+						})
 					})
 				})
 			},
@@ -187,33 +164,7 @@
 					})
 				})
 			},
-			// #endif
-			validateToken() {
-				uni.showLoading({
-					title: '加载中...'
-				});
-				this.$cloud.callFunction({
-					name: 'validateToken',
-					data: {
-						token: uni.getStorageSync('token')
-					}
-				}).then((res) => {
-					console.log(res);
-					uni.hideLoading()
-					uni.showModal({
-						content: res.result.msg,
-						showCancel: false
-					})
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: '请求云函数发生错误，' + err.message,
-						showCancel: false
-					})
-				})
-			},
 		},
-
 		onReady() {}
 	};
 </script>
@@ -225,7 +176,7 @@
 	.swiper{ height: 100upx;}
 	.buttonGroup{ display: flex;}
 	.swiper-title{ font-size: 30upx;}
-	.buttonGroup navigator{margin-right: 20upx; flex: 1;}
+	.buttonGroup button:nth-child(1){margin-right: 20upx;}
 	.container {
 		padding: 30px;
 	}

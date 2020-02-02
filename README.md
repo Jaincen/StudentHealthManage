@@ -77,3 +77,11 @@
 - 今日体温
 
 每日健康统计理论上需家长每日配合提交。
+
+
+### 空间与小程序appID设置
+在`main.js`中设置空间的`spaceId`、`clientSecret`；
+在`manifest.json`中设置微信小程序的`appID`，否则微信端获取的code为：`the code is a mock one`；
+在`cloudfunctions-dev/src/utils/constants.js`中设置`AppId`、`AppSecret`、`passSecret`字段，否则不能获取`openid`;
+
+
