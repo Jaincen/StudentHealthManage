@@ -1,4 +1,4 @@
-<!-- 用户登录 邯郸-vue node -->
+<!-- 用户登录 邯郸-前端-秦少卫 -->
 <template>
 	<div>
 		<div>
@@ -14,9 +14,9 @@
 				<text>学生报备系统</text>
 			</view>
 
-			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="TabCur" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
-			<swiper :current="TabCur" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
-			 indicator-active-color="rgba(255,255,255,0)" @change="swiperChange5">
+			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="userType" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
+			<swiper :current="userType" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
+			 indicator-active-color="rgba(255,255,255,0)">
 				<!-- 老师 -->
 				<swiper-item key="teacher">
 					<view class="desc">
@@ -51,6 +51,7 @@
 				<div class="buttonGroup">
 					<button type="primary" @click="signIn">登录</button>
 				</div>
+				<button type="primary" @click="validateToken">测试</button>
 				<navigator url="/pages/register/register" class="linkBtn" >
 					<text >没有账号？前往注册</text>
 				</navigator>
@@ -90,7 +91,7 @@
 						icon: 'cuIcon-wifi'
 					}
 				],
-				TabCur: 0,
+				userType: 0,
 			};
 		},
 		components: {
@@ -102,13 +103,13 @@
 		},
 		methods: {
 			tabChange(index) {
-				this.TabCur = index;
+				this.userType = index;
 			},
 			signIn() {
 				const {
 					username,
 					password,
-					TabCur,
+					userType,
 				} = this
 				if (username.length < 6 || password.length < 6) {
 					uni.showModal({
@@ -125,7 +126,7 @@
 					data: {
 						username,
 						password,
-						TabCur,
+						userType,
 					},
 				}).then((res) => {
 					console.log(res);
@@ -138,6 +139,9 @@
 						content: '登录成功',
 						showCancel: false
 					})
+					uni.navigateTo({
+					    url: '/pages/index/index'
+					});
 				}).catch((err) => {
 					console.log(err);
 					uni.hideLoading()
@@ -154,12 +158,12 @@
 				
 				this.getCode().then((code) => {
 					console.log('code', code);
-					const { TabCur } = this;
+					const { userType } = this;
 					return this.$cloud.callFunction({
 						name: 'login',
 						data: {
 							code,
-							TabCur,
+							userType,
 						}
 					})
 				}).then((res) => {
@@ -233,8 +237,8 @@
 	.weixinBtn div{ color: #333333; margin-bottom: 20upx;}
 	.linkBtn{ color: #007AFF; text-align: right; font-size: 22upx;}
 	.swiper{ height: 100upx;}
-	.buttonGroup{ display: flex;}
 	.swiper-title{ font-size: 30upx;}
+	.buttonGroup{ display: flex;}
 	.buttonGroup navigator{margin-right: 20upx; flex: 1;}
 	.container {
 		padding: 30px;

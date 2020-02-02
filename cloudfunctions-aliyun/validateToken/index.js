@@ -223,18 +223,27 @@ function base64urlEscape(str) {
 
 var jwtSimple = jwt_1;
 
-const db = uniCloud.database();
-async function validateToken(token) {
-	const userFromToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-	const { TabCur, ...others } = userFromToken;
+function userTypeConfig(userType) {
 	// 根据tab类型匹配对应用户表
+	// 0：老师
+	// 1：学生
+	// 2：家长
+	// 3：管理员
 	const userOptionDB = {
 		0:'teachers',
 		1:'students',
 		2:'parents',
 		3:'admin_users',
 	};
-	const userDBkye = userOptionDB[TabCur];
+	return userOptionDB[userType];
+}
+
+const db = uniCloud.database();
+async function validateToken(token) {
+	const userFromToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+	const { userType, ...others } = userFromToken;
+	// 根据tab类型匹配表名
+	const userDBkye = userTypeConfig(userType);
 	const userInDB = await db.collection(userDBkye).where(others).get();
 	
 	if (userInDB.data.length !== 1) {
@@ -246,7 +255,7 @@ async function validateToken(token) {
 	}
 	const userInfoDB = userInDB.data[0];
 	// 增加token中的标识 0老师、1学生、2家长、3管理员
-	userInfoDB.userType = TabCur;
+	userInfoDB.userType = userType;
 	let userInfoDecode;
 
 	userInfoDecode = jwtSimple.decode(token, userInfoDB.tokenSecret);

@@ -3,6 +3,8 @@ import {
 	loginConfig,
 	tokenExp
 } from '../../utils/constants.js'
+
+import userTypeConfig from '../../utils/userTypeConfig.js'
 import jwt from 'jwt-simple'
 
 const db = uniCloud.database()
@@ -38,15 +40,11 @@ async function login(event) {
 		openid
 	}
 	
-	const userOptionDB = {
-		0:'teachers',
-		1:'students',
-		2:'parents',
-	}
-	const userDBkye = userOptionDB[event.TabCur];
+	// 根据用户类型匹配表名
+	const userDBkye = userTypeConfig(event.userType)
 
 	let tokenSecret = crypto.randomBytes(16).toString('hex');
-	let secretKey = Object.assign(userInfo,{TabCur:event.TabCur});
+	let secretKey = Object.assign(userInfo,{userType:event.userType});
 	let token = jwt.encode(secretKey, tokenSecret)
 	const userInDB = await db.collection(userDBkye).where({
 		openid

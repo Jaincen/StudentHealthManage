@@ -235,32 +235,43 @@ function encryptPassword(password) {
 	return hmac.digest('hex');
 }
 
-const db = uniCloud.database();
-
-async function signUp(event) {
-	const {
-		username,
-		password,
-		TabCur,
-	} = event;
-
-	let userInfo = {
-		username
-	};
+function userTypeConfig(userType) {
 	// 根据tab类型匹配对应用户表
+	// 0：老师
+	// 1：学生
+	// 2：家长
+	// 3：管理员
 	const userOptionDB = {
 		0:'teachers',
 		1:'students',
 		2:'parents',
 		3:'admin_users',
 	};
-	const userDBkye = userOptionDB[TabCur];
+	return userOptionDB[userType];
+}
 
+const db = uniCloud.database();
+
+async function signUp(event) {
+	const {
+		username,
+		password,
+		userType,
+	} = event;
+
+	let userInfo = {
+		username
+	};
+	// 根据用户类型匹配表名称
+	const userDBkye = userTypeConfig(userType);
 	const userInDB = await db.collection(userDBkye).where({
 		username,
+		//管理员不加密 使用明文
 		password: userDBkye === 'admin_users' ? password : encryptPassword(password),
 	}).get();
-	userInfo.TabCur = TabCur;
+	// 增加用户类型返回给前端
+	userInfo.userType = userType;
+	
 	let tokenSecret = crypto.randomBytes(16).toString('hex'),
 		token = jwtSimple.encode(userInfo, tokenSecret);
 	let userUpdateResult;

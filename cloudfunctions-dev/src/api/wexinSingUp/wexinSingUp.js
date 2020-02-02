@@ -44,7 +44,7 @@ async function wexinSingUp(event) {
 		1:'students',
 		2:'parents',
 	}
-	const userDBkye = userOptionDB[event.TabCur];
+	const userDBkye = userOptionDB[event.userType];
 
 	let tokenSecret = crypto.randomBytes(16).toString('hex'),
 		token = jwt.encode(userInfo, tokenSecret)

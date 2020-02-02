@@ -1,4 +1,4 @@
-<!-- 微信注册 邯郸-vue node -->
+<!-- 微信注册 邯郸-前端-秦少卫 -->
 <template>
 	<div>
 		<div>
@@ -14,9 +14,9 @@
 				<text>学生报备系统</text>
 			</view>
 
-			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="TabCur" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
-			<swiper :current="TabCur" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
-			 indicator-active-color="rgba(255,255,255,0)" @change="swiperChange5">
+			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="userType" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
+			<swiper :current="userType" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
+			 indicator-active-color="rgba(255,255,255,0)">
 				<!-- 老师 -->
 				<swiper-item key="teacher">
 					<view class="desc">
@@ -76,7 +76,7 @@
 						icon: 'cuIcon-wifi'
 					}
 				],
-				TabCur: 0,
+				userType: 0,
 			};
 		},
 		components: {
@@ -88,14 +88,14 @@
 		},
 		methods: {
 			tabChange(index) {
-				this.TabCur = index;
+				this.userType = index;
 			},
 			bindUser() {
 				const {
 					username,
 					password,
 					repeatPassword,
-					TabCur,
+					userType,
 					code,
 				} = this
 				
@@ -126,7 +126,7 @@
 							username,
 							password,
 							code:this.code,
-							TabCur,
+							userType,
 						},
 					}).then((res) => {
 						uni.hideLoading()

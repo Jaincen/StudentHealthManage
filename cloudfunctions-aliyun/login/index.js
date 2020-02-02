@@ -15,6 +15,21 @@ const loginConfig = {
 
 const tokenExp = 7200000;
 
+function userTypeConfig(userType) {
+	// 根据tab类型匹配对应用户表
+	// 0：老师
+	// 1：学生
+	// 2：家长
+	// 3：管理员
+	const userOptionDB = {
+		0:'teachers',
+		1:'students',
+		2:'parents',
+		3:'admin_users',
+	};
+	return userOptionDB[userType];
+}
+
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
@@ -265,15 +280,11 @@ async function login(event) {
 		openid
 	};
 	
-	const userOptionDB = {
-		0:'teachers',
-		1:'students',
-		2:'parents',
-	};
-	const userDBkye = userOptionDB[event.TabCur];
+	// 根据用户类型匹配表名
+	const userDBkye = userTypeConfig(event.userType);
 
 	let tokenSecret = crypto.randomBytes(16).toString('hex');
-	let secretKey = Object.assign(userInfo,{TabCur:event.TabCur});
+	let secretKey = Object.assign(userInfo,{userType:event.userType});
 	let token = jwtSimple.encode(secretKey, tokenSecret);
 	const userInDB = await db.collection(userDBkye).where({
 		openid

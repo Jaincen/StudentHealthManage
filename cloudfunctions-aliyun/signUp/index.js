@@ -229,6 +229,21 @@ const passSecret = ''; //用于用户数据库密码加密的密钥，使用一�
 
 const tokenExp = 7200000;
 
+function userTypeConfig(userType) {
+	// 根据tab类型匹配对应用户表
+	// 0：老师
+	// 1：学生
+	// 2：家长
+	// 3：管理员
+	const userOptionDB = {
+		0:'teachers',
+		1:'students',
+		2:'parents',
+		3:'admin_users',
+	};
+	return userOptionDB[userType];
+}
+
 function encryptPassword(password) {
 	const hmac = crypto.createHmac('sha1', passSecret.toString('ascii'));
 	hmac.update(password);
@@ -241,19 +256,14 @@ async function signUp(event) {
 	const {
 		username,
 		password,
-		TabCur,
+		userType,
 	} = event;
 
 	let userInfo = {
 		username
 	};
-	// 根据tab类型匹配对应用户表
-	const userOptionDB = {
-		0:'teachers',
-		1:'students',
-		2:'parents',
-	};
-	const userDBkye = userOptionDB[TabCur];
+	// 根据用户类型匹配表名
+	const userDBkye = userTypeConfig(userType);
 	const userInDB = await db.collection(userDBkye).where(userInfo).get();
 
 	let tokenSecret = crypto.randomBytes(16).toString('hex'),
