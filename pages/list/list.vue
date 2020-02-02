@@ -42,8 +42,8 @@ import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
 
 const $apis = uniCloud.init({
 	provider: 'aliyun',
-	spaceId: '',
-	clientSecret: ''
+	spaceId: '88014732-6096-44c5-8b84-bd5ab3c0cd28',
+	clientSecret: 'GbwdCQbRVPW6HXzE/3qTDg=='
 });
 const myDate = new Date();
 let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate.getDate() + 1);
