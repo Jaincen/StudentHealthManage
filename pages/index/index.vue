@@ -24,7 +24,7 @@
 			<navigator url="/pages/register/register" class="linkBtn" >
 				修改学生信息
 			</navigator>
-			<navigator url="/pages/register/register" class="linkBtn" >
+			<navigator url="/pages/student/student_day" class="linkBtn" >
 				今日健康报备
 			</navigator>
 		</view>
