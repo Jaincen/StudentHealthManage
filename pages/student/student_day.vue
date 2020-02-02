@@ -1,4 +1,3 @@
-<!-- 每日健康统计 安徽-unicloud-王秀龙 -->
 <template>
 	<view>
 		<form @submit="formSubmit">
@@ -72,7 +71,7 @@
 			<checkbox-group @change="checkboxChange" name="health">
 				<label class="uni-list-cell uni-list-cell-pd" v-for="item in items" :key="item.value">
 					<view>
-						<checkbox :value="item.value" :checked="item.checked" />
+						<checkbox :value="item.value" :checked="item.checked" :disabled="item.disabled" />
 					</view>
 					<view>{{item.name}}</view>
 				</label>
@@ -181,15 +180,17 @@
 			checkboxChange: function (e) {
 				var items = this.items,
 					values = e.detail.value;
-				for (var i = 0, lenI = items.length; i < lenI; ++i) {
+				for (var i = 1, lenI = items.length; i < lenI; ++i) {
 					const item = items[i]
 					if(values.indexOf(item.value) >= 0){
 						this.$set(item,'checked',true)
 					}else{
 						this.$set(item,'checked',false)
+						this.$set(item,'disabled',false)
 					}
 					if(values.indexOf(items[0].value) >= 0){
 						this.$set(item,'checked',false)
+						this.$set(item,'disabled',true)
 					}
 				}
 			}
