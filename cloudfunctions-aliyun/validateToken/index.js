@@ -245,6 +245,8 @@ async function validateToken(token) {
 		}
 	}
 	const userInfoDB = userInDB.data[0];
+	// 增加token中的标识 0老师、1学生、2家长、3管理员
+	userInfoDB.TabCur = TabCur;
 	let userInfoDecode;
 
 	userInfoDecode = jwtSimple.decode(token, userInfoDB.tokenSecret);
@@ -260,8 +262,6 @@ async function validateToken(token) {
 		return {
 			statue: 0,
 			data:userInfoDB,
-			// openid: userInfoDB.openid,
-			// userId: userInfoDB.userId,
 			msg: 'token验证成功'
 		}
 	}
