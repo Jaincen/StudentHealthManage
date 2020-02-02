@@ -159,9 +159,41 @@
 
 
 ### 空间与小程序appID设置
-在`main.js`中设置空间的`spaceId`、`clientSecret`；
-在`manifest.json`中设置微信小程序的`appID`，否则微信端获取的code为：`the code is a mock one`；
-在`cloudfunctions-dev/src/utils/constants.js`中设置`AppId`、`AppSecret`、`passSecret`字段，否则不能获取`openid`;
+- 在`main.js`中设置空间的`spaceId`、`clientSecret`；
+- 在`manifest.json`中设置微信小程序的`appID`，否则微信端获取的code为：`the code is a mock one`；
+- 在`cloudfunctions-dev/src/utils/constants.js`中设置`AppId`、`AppSecret`、`passSecret`字段，否则不能获取`openid`;
 
 
+### token获取详情
+获取用户信息需要根据token获取，方法如下，成功后，`res.data`为详细信息，`res.data.userType`为用户类型，
+`userType`的值为数字，对应信息如下。
+- 0：老师
+- 1：学生
+- 2：家长
+- 3：管理员
 
+```JS
+validateToken() {
+				uni.showLoading({
+					title: '加载中...'
+				});
+				this.$cloud.callFunction({
+					name: 'validateToken',
+					data: {
+						token: uni.getStorageSync('token')
+					}
+				}).then((res) => {
+					uni.hideLoading()
+					uni.showModal({
+						content: res.result.msg,
+						showCancel: false
+					})
+				}).catch((err) => {
+					uni.hideLoading()
+					uni.showModal({
+						content: '请求云函数发生错误，' + err.message,
+						showCancel: false
+					})
+				})
+			},
+```
