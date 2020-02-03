@@ -111,9 +111,18 @@
 					password,
 					userType,
 				} = this
-				if (username.length < 6 || password.length < 6) {
+                
+                if (username.length < 3) {
+                	uni.showModal({
+                		content: '用户名长度均不能小于3',
+                		showCancel: false
+                	})
+                	return
+                }
+                
+				if (password.length < 6) {
 					uni.showModal({
-						content: '用户名密码长度均不能小于6',
+						content: '密码长度均不能小于6',
 						showCancel: false
 					})
 					return
