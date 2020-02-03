@@ -47,7 +47,7 @@
 	export default {
 		data() {
 			return {
-				school: '',
+				school: '希望小学',
 				userType:4,
 				userText:'',
 			}
@@ -75,29 +75,38 @@
 				uni.showLoading({
 					title: '加载中...'
 				});
-				this.$cloud.callFunction({
-					name: 'validateToken',
-					data: {
-						token: uni.getStorageSync('token')
-					}
-				}).then((res) => {
-					console.log(res.result.data)
-					try{
-						const { userType,school } = res.result.data;
-						this.school = school;
-						this.userType = userType;
-						this.userText = this.setUserText(userType)
-					}catch(e){
-						throw new Error("参数错误请重新登录");  
-					}
-					uni.hideLoading()
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: '请求云函数发生错误，' + err.message,
-						showCancel: false
-					})
-				})
+                
+                let token = uni.getStorageSync('token')
+                
+               if(token){
+                   this.$cloud.callFunction({
+                   	name: 'validateToken',
+                   	data: {
+                   		token: uni.getStorageSync('token')
+                   	}
+                   }).then((res) => {
+                   	console.log(res.result.data)
+                   	try{
+                   		const { userType,school } = res.result.data;
+                   		this.school = school;
+                   		this.userType = userType;
+                   		this.userText = this.setUserText(userType)
+                   	}catch(e){
+                   		throw new Error("参数错误请重新登录");  
+                   	}
+                   	uni.hideLoading()
+                   }).catch((err) => {
+                   	uni.hideLoading()
+                   	uni.showModal({
+                   		content: '请求云函数发生错误，' + err.message,
+                   		showCancel: false
+                   	})
+                   })
+               }else{
+                   uni.navigateTo({
+                       url:"../login/login"
+                   })
+               }
 			}
 		}
 	}
