@@ -41,6 +41,12 @@
             "style":{
                 "navigationBarTitleText":"班级管理"
             }
+        },
+        {
+        	"path": "pages/list/list",
+        	"style": {
+        		"navigationBarTitleText": "健康统计汇总"
+        	}
         }
     ],
 	"globalStyle": {
