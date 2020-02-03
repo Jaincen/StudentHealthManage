@@ -23,7 +23,25 @@
 		    "style" : {
 				"navigationBarTitleText": "微信注册"
 			}
-		}
+		},
+        {
+            "path":"pages/student/student_day",
+            "style":{
+                "navigationBarTitleText":"健康报备"
+            }
+        },
+        {
+            "path":"pages/administrator/admin_grade",
+            "style":{
+                "navigationBarTitleText":"年级管理"
+            }
+        },
+        {
+            "path":"pages/administrator/admin_class",
+            "style":{
+                "navigationBarTitleText":"班级管理"
+            }
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

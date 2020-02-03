@@ -15,7 +15,7 @@
 			<navigator url="/pages/register/register" class="linkBtn" >
 				修改学生信息
 			</navigator>
-			<navigator url="/pages/register/register" class="linkBtn" >
+			<navigator url="../student/student_day" class="linkBtn" >
 				今日健康报备
 			</navigator>
 		</view>
@@ -30,10 +30,10 @@
 		</view>
 		<!-- 管理员 -->
 		<view class="buttonGroup" v-if="userType === 3">
-			<navigator url="/pages/register/register" class="linkBtn" >
+			<navigator url="../administrator/admin_grade" class="linkBtn" >
 				年级管理
 			</navigator>
-			<navigator url="/pages/register/register" class="linkBtn" >
+			<navigator url="../administrator/admin_class" class="linkBtn" >
 				班级管理
 			</navigator>
 		</view>
