@@ -33,11 +33,7 @@
 </template>
 
 <script>
-const $apis = uniCloud.init({
-	provider: 'aliyun',
-	spaceId: '',
-	clientSecret: ''
-});
+
 export default {
 	data() {
 		return {
@@ -91,8 +87,7 @@ export default {
 			uni.showLoading({
 				title: '处理中...'
 			});
-			$apis
-				.callFunction({
+			uniCloud.callFunction({
 					name: 'teacher_bind',
 					data: obj
 				})

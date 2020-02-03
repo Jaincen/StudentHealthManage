@@ -39,11 +39,11 @@
 				</swiper-item>
 				
 				<!-- 管理员 -->
-				<swiper-item key="admin">
+				<!-- <swiper-item key="admin">
 					<view class="desc">
 						<view>管理员模式</view>
 					</view>
-				</swiper-item>
+				</swiper-item> -->
 			</swiper>
 			<view class="login-form">
 				<input type="text" value="" placeholder="请输入用户名" v-model="username" />
@@ -85,11 +85,11 @@
 					{
 						name: '家长',
 						icon: 'cuIcon-wifi'
-					},
-					{
-						name: '管理员',
-						icon: 'cuIcon-wifi'
 					}
+					// {
+					// 	name: '管理员',
+					// 	icon: 'cuIcon-wifi'
+					// }
 				],
 				userType: 0,
 			};

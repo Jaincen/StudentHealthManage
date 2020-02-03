@@ -118,55 +118,49 @@
 			}
 		},
 		onLoad:function(){
-			uni.showLoading({
-				title: '加载中...'
-			})
-			this.$cloud.callFunction({
-				name: 'getStudent',
-				data: {
-					stu_id: uni.getStorageSync('stu_id')
-				},
-			}).then((res) => {
-				this.student = res.result.data[0];
-				console.log(this.student);
-				uni.hideLoading()
-			}).catch((err) => {
-				console.log(err);
-				uni.hideLoading()
-				uni.showModal({
-					content: '加载失败，' + err.message,
-					showCancel: false
-				})
-			})
+			// uni.showLoading({
+			// 	title: '加载中...'
+			// })
+			// this.$cloud.callFunction({
+			// 	name: 'getStudent',
+			// 	data: {
+			// 		stu_id: uni.getStorageSync('stu_id')
+			// 	},
+			// }).then((res) => {
+			// 	this.student = res.result.data[0];
+			// 	console.log(this.student);
+			// 	uni.hideLoading()
+			// }).catch((err) => {
+			// 	console.log(err);
+			// 	uni.hideLoading()
+			// 	uni.showModal({
+			// 		content: '加载失败，' + err.message,
+			// 		showCancel: false
+			// 	})
+			// })
 		},
 		methods: {
 			formSubmit: function(e) {
+                //class_id需要动态读取
 				var data ={
-					stu_id:this.student._id,
-					class_id:this.student.class_id,
+					stu_id:this.student.stu_num,
+					class_id:"5e3848f8ba9452004dde255b",
 					create_time:Date.now()
 				}
 				var formData = e.detail.value, data;
 				formData.health = formData.health.join();
 				var submitData = Object.assign(formData, data);
 				
-				this.$cloud.callFunction({
+                console.log(submitData);
+                
+				uniCloud.callFunction({
 				  name: 'studentDay',
 				  data: submitData
 				}).then((res) => {
 				  uni.hideLoading()
-				  uni.showModal({
-					title: '提示',
-				    content: `提交成功`,
-				    showCancel: false,
-					success: function (res) {
-						if (res.confirm) {
-							console.log('用户点击确定');
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				  })
+                  uni.showToast({
+                      title:"提交成功，感谢配合！"
+                  })
 				}).catch((err) => { 
 				  uni.hideLoading()
 				  uni.showModal({

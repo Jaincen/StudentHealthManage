@@ -40,17 +40,12 @@
 <script>
 import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
 
-const $apis = uniCloud.init({
-	provider: 'aliyun',
-	spaceId: '',
-	clientSecret: ''
-});
 const myDate = new Date();
 let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate.getDate() + 1);
 export default {
 	data() {
 		return {
-			class_id: '5e36631d67e166004da420af', //  班级标志
+			class_id: '5e3848f8ba9452004dde255b', //  班级标志
 			num: -1,
 			time: '', //  当前选择的时间
 			selectTime: false, //  选择时间弹框
@@ -82,15 +77,14 @@ export default {
 			uni.showLoading({
 				title: '处理中...'
 			});
-			let start = new Date(this.time).getTime() / 1000;
-			let start2 = new Date(time2).getTime() / 1000;
+			let start = new Date(this.time).getTime();
+			let start2 = new Date(time2).getTime();
 			console.log(start);
 			console.log(start2);
-			$apis
-				.callFunction({
+			uniCloud.callFunction({
 					name: 'query_reports',
 					data: {
-						class_id: this.class_id,
+						class_id: "5e3848f8ba9452004dde255b",
 						time: start,
 						time2: start2
 					}

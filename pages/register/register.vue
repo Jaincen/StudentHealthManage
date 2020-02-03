@@ -140,10 +140,14 @@
 						return Promise.reject(new Error(res.result.msg))
 					}
 					uni.setStorageSync('token', res.result.token)
-					uni.showModal({
-						content: '注册成功，token已存储',
-						showCancel: false
-					})
+                    
+                    uni.showToast({
+                        title:"注册成功"
+                    })
+                    
+                    uni.navigateTo({
+                        url:"../index/index"
+                    })
 				}).catch((err) => {
 					console.log(err);
 					uni.hideLoading()
