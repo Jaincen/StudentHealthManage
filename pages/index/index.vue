@@ -1,13 +1,12 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
 		<view class="text-area">
-			<div>
-				<text class="title">{{school}}</text>
-			</div>
-			<div class="tipText">
+			<view style="margin-top: 150upx;margin-bottom: 100upx;">
+				<text class="title">{{school}}学生健康报备</text>
+			</view>
+			<!-- <div class="tipText">
 				<text>{{userText}}您好</text>
-			</div>
+			</div> -->
 			
 		</view>
 		<!-- 学生家长 -->
@@ -38,7 +37,7 @@
 			</navigator>
 		</view>
 		
-		<button type="primary" class="logOutBtn" @click="logout">退出登录</button>
+		<button type="default" class="logOutBtn" @click="logout">退出登录</button>
 
 	</view>
 </template>

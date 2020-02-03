@@ -11,7 +11,7 @@
 		</div>
 		<view class="container">
 			<view class="title">
-				<text>学生报备系统</text>
+				<text>学生健康报备系统</text>
 			</view>
 
 			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="userType" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
