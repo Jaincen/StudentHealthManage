@@ -51,7 +51,6 @@
 				<div class="buttonGroup">
 					<button type="primary" @click="signIn">登录</button>
 				</div>
-				<button type="primary" @click="validateToken">测试</button>
 				<navigator url="/pages/register/register" class="linkBtn" >
 					<text >没有账号？前往注册</text>
 				</navigator>
