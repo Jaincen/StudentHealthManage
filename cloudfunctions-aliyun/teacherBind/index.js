@@ -18,14 +18,36 @@ exports.main = async (event, context) => {
 		}).get()
 		data = classData.data
 	} else {
-		let classData = await teachers.where({
-			// 获取班级表的总数
-			_id: dbCmd.eq(event.grade_id)
-		}).update({
-			class_info: event.class_info
-		})
+        
+        let teacherObj = await teachers.where({
+			tokenSecret: event.token
+		}).get()
+        
+        
+        let uid = event.uid
+        if(uid){
+            teachers.doc(uid).update({
+                class_info:event.class_info
+            })
+        }
+        
+        console.log("teacherObj",teacherObj)
+        
+        // if(teacherObj.data){
+        //     teacherObj.update({
+        //         class_info:event.class_info
+        //     })
+        // }
+        
+        
+		// let classData = await teachers.where({
+		// 	// 获取班级表的总数
+		// 	tokenSecret: dbCmd.eq(event.token)
+		// }).update({
+		// 	class_info: event.class_info
+		// })
 		data = {
-			classData: classData
+			// classData: classData
 		}
 	}
 
