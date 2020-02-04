@@ -121,7 +121,7 @@
 			// uni.showLoading({
 			// 	title: '加载中...'
 			// })
-			// this.$cloud.callFunction({
+			// uniCloud.callFunction({
 			// 	name: 'getStudent',
 			// 	data: {
 			// 		stu_id: uni.getStorageSync('stu_id')
@@ -138,13 +138,17 @@
 			// 		showCancel: false
 			// 	})
 			// })
+            
+            this.student.stu_name = uni.getStorageSync("stu_name")
+            this.student.stu_no = uni.getStorageSync("stu_no")
+            
 		},
 		methods: {
 			formSubmit: function(e) {
                 //class_id需要动态读取
 				var data ={
 					stu_id:this.student.stu_num,
-					class_id:"5e3848f8ba9452004dde255b",
+					class_id:uni.getStorageSync("class_id"),
 					create_time:Date.now()
 				}
 				var formData = e.detail.value, data;
@@ -152,7 +156,9 @@
 				var submitData = Object.assign(formData, data);
 				
                 console.log(submitData);
-                
+                uni.showLoading({
+                    title:'正在提交，请稍后...'
+                })
 				uniCloud.callFunction({
 				  name: 'studentDay',
 				  data: submitData

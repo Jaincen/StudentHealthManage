@@ -32,7 +32,7 @@
 				<!-- 家长 -->
 				<swiper-item key="parents">
 					<view class="desc">
-						<view>家长注册可辅助学生进行监控状况填写</view>
+						<view>家长注册可代替孩子进行健康状况上报</view>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -127,7 +127,7 @@
 					title: '注册中...'
 				})
 				
-				this.$cloud.callFunction({
+				uniCloud.callFunction({
 					name: 'signUp',
 					data: {
 						username,
@@ -142,12 +142,16 @@
 					uni.setStorageSync('token', res.result.token)
                     
                     uni.showToast({
-                        title:"注册成功"
+                        icon:"none",
+                        title:"注册成功，请重新登录",
+                        success() {
+                            uni.navigateTo({
+                                url:"../login/login"
+                            })
+                        }
                     })
                     
-                    uni.navigateTo({
-                        url:"../index/index"
-                    })
+                    
 				}).catch((err) => {
 					console.log(err);
 					uni.hideLoading()
@@ -161,7 +165,7 @@
 				uni.showLoading({
 					title: '加载中...'
 				});
-				this.$cloud.callFunction({
+				uniCloud.callFunction({
 					name: 'validateToken',
 					data: {
 						token: uni.getStorageSync('token')

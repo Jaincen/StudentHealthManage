@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="text-area">
 			<view style="margin-top: 150upx;margin-bottom: 100upx;">
-				<text class="title">{{school}}学生健康报备</text>
+				<text class="title">{{school}}学生健康报备系统</text>
 			</view>
 			<!-- <div class="tipText">
 				<text>{{userText}}您好</text>
@@ -11,16 +11,17 @@
 		</view>
 		<!-- 学生家长 -->
 		<view class="buttonGroup" v-if="userType === 1 || userType === 2">
-			<navigator url="../student_bind/student_bind" class="linkBtn" >
+			<!-- <navigator url="../student_bind/student_bind" class="linkBtn" >
 				绑定学生信息
-			</navigator>
+			</navigator> -->
 			<navigator url="../student/student_day" class="linkBtn" >
 				今日健康报备
 			</navigator>
 		</view>
 		<!-- 老师 -->
 		<view class="buttonGroup" v-if="userType === 0">
-			<navigator url="../teacher_bind/teacher_bind" class="linkBtn" >
+            <view class="welcome">老师，您好</view>
+            <navigator url="../teacher_bind/teacher_bind" class="linkBtn" >
 				绑定管理班级
 			</navigator>
 			<navigator url="/pages/list/list" class="linkBtn" >
@@ -46,17 +47,24 @@
 	export default {
 		data() {
 			return {
-				school: '希望小学',
+				school: '',
 				userType:4,
 				userText:'',
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.getUserInfo()
 		},
 		methods: {
 			logout(){
-				uni.setStorageSync('token', '')
+                //用户退出，清楚缓存信息
+				uni.removeStorageSync('token')
+                uni.removeStorageSync("userType")
+                uni.removeStorageSync("uid")
+                uni.removeStorageSync("class_id")
+                uni.removeStorageSync("stu_no")
+                uni.removeStorageSync("stu_name")
+                
 				uni.navigateTo({
 				    url: '/pages/login/login'
 				});
@@ -71,6 +79,7 @@
 				return userOptionDB[userType];
 			},
 			getUserInfo(){
+                console.log("getUserInfo begin")
 				uni.showLoading({
 					title: '加载中...'
 				});
@@ -78,13 +87,13 @@
                 let token = uni.getStorageSync('token')
                 
                if(token){
-                   this.$cloud.callFunction({
+                   uniCloud.callFunction({
                    	name: 'validateToken',
                    	data: {
                    		token: uni.getStorageSync('token')
                    	}
                    }).then((res) => {
-                   	console.log(res.result.data)
+                   	console.log("validateToken",res.result.data)
                    	try{
                    		const { userType,school } = res.result.data;
                    		this.school = school;
@@ -137,12 +146,14 @@
 	}
 
 	.title {
-		font-size: 40rpx;
-		color: #576FEC;
+		font-size: 20px;
 		text-align: center;
 		font-weight: bold;
 		margin-bottom: 30upx;
+        padding: 20px 0px;
+
 	}
+    
 	.buttonGroup{ width: 100%; margin-bottom:40upx ;}
 	.buttonGroup .linkBtn{ 
 		font-size: 30upx;
@@ -159,4 +170,9 @@
 		color: #fff;
 	}
 	.logOutBtn{ flex: 1; width: 90%;margin-top: 20upx;}
+    
+    .welcome{
+        padding-left: 22px;
+        margin-bottom: 35px;
+    }
 </style>

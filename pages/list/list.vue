@@ -22,7 +22,9 @@
 			<view class="top">
 				<view class="id">学号:{{ item.stu_num }}</view>
 				<view class="name">姓名:{{ item.stu_name }}</view>
-				<view class="name">健康状态:{{ item.health }}</view>
+				<view class="name" >健康状态:
+                    <view :style="{color:item.health == '良好'?'#1aad19':'#f00'}">{{ item.health }}</view>
+                </view>
 			</view>
 			<view class="top">
 				{{ item.current_pos == 2 ? '在湖北' : item.current_pos == 1 ? '在外地' : '在本地' }}, 今日体温:{{ item.temperature }},
@@ -45,7 +47,7 @@ let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate
 export default {
 	data() {
 		return {
-			class_id: '5e3848f8ba9452004dde255b', //  班级标志
+			class_id: "", //  班级标志
 			num: -1,
 			time: '', //  当前选择的时间
 			selectTime: false, //  选择时间弹框
@@ -58,7 +60,7 @@ export default {
 		uniCalendar
 	},
 	onLoad(data) {
-		this.class_id = data.class_id
+		this.class_id = uni.getStorageSync("class_id")
 		this.time = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + myDate.getDate();
 		this.http();
 	},
@@ -79,12 +81,10 @@ export default {
 			});
 			let start = new Date(this.time).getTime();
 			let start2 = new Date(time2).getTime();
-			console.log(start);
-			console.log(start2);
 			uniCloud.callFunction({
 					name: 'query_reports',
 					data: {
-						class_id: "5e3848f8ba9452004dde255b",
+						class_id: uni.getStorageSync("class_id"),
 						time: start,
 						time2: start2
 					}
@@ -129,6 +129,7 @@ export default {
 	padding: 20rpx 0;
 }
 .collect {
+    padding: 22px;
 	line-height: 80rpx;
 	span {
 		color: #f00;
