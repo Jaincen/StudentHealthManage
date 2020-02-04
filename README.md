@@ -177,7 +177,7 @@ validateToken() {
 				uni.showLoading({
 					title: '加载中...'
 				});
-				this.$cloud.callFunction({
+				uniCloud.callFunction({
 					name: 'validateToken',
 					data: {
 						token: uni.getStorageSync('token')
