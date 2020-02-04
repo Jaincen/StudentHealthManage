@@ -9,7 +9,7 @@
                 </view>
                 <view class="uni-list-cell-db">
                     <picker @change="bindPickerChange" :value="gradeIndex" :range="gradeArr" range-key="name">
-                        <view class="uni-input">{{gradeArr[gradeIndex].name}}</view>
+                        <view class="uni-input">{{gradeName}}</view>
                     </picker>
                 </view>
             </view>
@@ -20,7 +20,7 @@
                 </view>
                 <view class="uni-list-cell-db">
                     <picker @change="bindClassChange" :value="classIndex" :range="classArr" range-key="name">
-                        <view class="uni-input">{{classArr[classIndex].name}}</view>
+                        <view class="uni-input">{{className}}</view>
                     </picker>
                 </view>
             </view>
@@ -39,8 +39,10 @@
                 classList: [], //所有班级列表
                 gradeArr: [], //  年级
                 gradeIndex: "", //年级索引
+                gradeName:"",
                 classArr: [], //  特定年级下的班级
-                classIndex: "" //班级索引
+                classIndex: "", //班级索引
+                className:""
             };
         },
         onLoad(data) {
@@ -66,11 +68,13 @@
                 console.log(e.target.value)
 
                 this.gradeIndex = e.target.value
+                this.gradeName = this.gradeArr[this.gradeIndex].name
                 this.classArr = this.classList[this.gradeArr[this.gradeIndex]._id]
             },
 
             bindClassChange: function(e) {
                 this.classIndex = e.target.value
+                this.className = this.classArr[this.classIndex].name
             },
 
             bind() {

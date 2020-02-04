@@ -145,7 +145,7 @@
                         icon:"none",
                         title:"注册成功，请重新登录",
                         success() {
-                            uni.navigateTo({
+                            uni.redirectTo({
                                 url:"../login/login"
                             })
                         }

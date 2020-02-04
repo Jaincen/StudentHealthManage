@@ -51,7 +51,7 @@
 				<div class="buttonGroup">
 					<button type="primary" @click="signIn">登录</button>
 				</div>
-				<navigator url="/pages/register/register" class="linkBtn" >
+				<navigator url="/pages/register/register" class="linkBtn" open-type="redirect">
 					<text >没有账号？前往注册</text>
 				</navigator>
 				<!-- #ifdef MP-WEIXIN -->
