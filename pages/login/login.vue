@@ -20,21 +20,21 @@
 				<!-- 老师 -->
 				<swiper-item key="teacher">
 					<view class="desc">
-						<view>老师登录后可查看自己班级的学生监控状况</view>
+						<view>老师登录，查看自己班级的学生健康数据统计</view>
 					</view>
 				</swiper-item>
 				
 				<!-- 学生 -->
 				<swiper-item key="students">
 					<view class="desc">
-						<view>学生登录后可关联自己的班级上报健康状况</view>
+						<view>学生登录，自助上报每日健康状况</view>
 					</view>
 				</swiper-item>
 
 				<!-- 家长 -->
 				<swiper-item key="parents">
 					<view class="desc">
-						<view>家长登录可辅助学生进行监控状况填写</view>
+						<view>小学、幼儿园，可由家长登录代替孩子填写健康状况</view>
 					</view>
 				</swiper-item>
 				

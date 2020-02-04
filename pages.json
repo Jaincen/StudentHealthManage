@@ -47,6 +47,18 @@
         	"style": {
         		"navigationBarTitleText": "健康统计汇总"
         	}
+        },
+        {
+            "path": "pages/teacher_bind/teacher_bind",
+            "style": {
+                "navigationBarTitleText": "绑定班级"
+            }
+        },
+        {
+            "path": "pages/student_bind/student_bind",
+            "style": {
+                "navigationBarTitleText": "绑定学生信息"
+            }
         }
     ],
 	"globalStyle": {

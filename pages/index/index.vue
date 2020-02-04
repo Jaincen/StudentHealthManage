@@ -11,18 +11,18 @@
 		</view>
 		<!-- 学生家长 -->
 		<view class="buttonGroup" v-if="userType === 1 || userType === 2">
-			<!-- <navigator url="/pages/register/register" class="linkBtn" >
-				修改学生信息
-			</navigator> -->
+			<navigator url="../student_bind/student_bind" class="linkBtn" >
+				绑定学生信息
+			</navigator>
 			<navigator url="../student/student_day" class="linkBtn" >
 				今日健康报备
 			</navigator>
 		</view>
 		<!-- 老师 -->
 		<view class="buttonGroup" v-if="userType === 0">
-			<!-- <navigator url="/pages/register/register" class="linkBtn" >
-				修改学生信息
-			</navigator> -->
+			<navigator url="../teacher_bind/teacher_bind" class="linkBtn" >
+				绑定管理班级
+			</navigator>
 			<navigator url="/pages/list/list" class="linkBtn" >
 				查看报备数据
 			</navigator>

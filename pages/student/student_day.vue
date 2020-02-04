@@ -158,8 +158,12 @@
 				  data: submitData
 				}).then((res) => {
 				  uni.hideLoading()
+                  
                   uni.showToast({
-                      title:"提交成功，感谢配合！"
+                      title:"提交成功，请明天再来！"
+                  })
+                  uni.navigateTo({
+                      url:"../index/index"
                   })
 				}).catch((err) => { 
 				  uni.hideLoading()

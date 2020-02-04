@@ -11,20 +11,12 @@
 			</view>
 		</view>
 		<view class="banji">
-			<view
-				@click="
-					http({
-						grade_id: selectGradeId,
-						class_info: null
-					})
-				"
-				v-if="selectGrade != ''"
-			>
+			<view @click="getClass()">
 				点击选择班级:
 				<view>{{ selectClass }}</view>
 			</view>
 			<view v-if="classArr.length != 0" class="getGrade">
-				<view @click="getClass(item)" v-for="(item, index) in classArr" :key="item">{{ item.name }}</view>
+				<view @click="bindClass(item)" v-for="(item, index) in classArr" :key="item">{{ item.name }}</view>
 			</view>
 		</view>
 
@@ -33,7 +25,6 @@
 </template>
 
 <script>
-
 export default {
 	data() {
 		return {
@@ -47,7 +38,7 @@ export default {
 		};
 	},
 	onLoad(data) {
-		// this.teacher_id = data.teacher_id;
+		this.teacher_id = data.teacher_id;
 	},
 	methods: {
 		queding() {
@@ -56,16 +47,17 @@ export default {
 				class_info: this.selectClassId
 			});
 		},
-		select(data) {
-			this.selectGrade = '';
-			this.selectGradeId = '';
+		select() {
 			this.selectClass = '';
 			this.selectClassId = '';
-			this.gradeArr = [];
 			this.classArr = [];
-			this.http({
-				grade_id: null
-			});
+			if (this.gradeArr.length == 0) {
+				this.gradeArr = [];
+				this.http({
+					grade_id: null
+				});
+			} else {
+			}
 		},
 		getGrade(data) {
 			// 选择年级
@@ -78,7 +70,21 @@ export default {
 			this.gradeArr = [];
 		},
 		getClass(data) {
-			// 选择年级
+			// 选择班级
+			if (this.selectGradeId != '') {
+				this.http({
+					grade_id: this.selectGradeId,
+					class_info: null
+				});
+			} else {
+				uni.showToast({
+					title: '请先选择年级',
+					icon: 'none',
+					duration: 2000
+				});
+			}
+		},
+		bindClass(data) {
 			this.selectClass = data.name;
 			this.selectClassId = data._id;
 			this.classArr = [];
@@ -87,7 +93,8 @@ export default {
 			uni.showLoading({
 				title: '处理中...'
 			});
-			uniCloud.callFunction({
+			uniCloud
+				.callFunction({
 					name: 'teacher_bind',
 					data: obj
 				})
@@ -98,6 +105,13 @@ export default {
 						this.gradeArr = res.result;
 					} else if (obj.class_info == null) {
 						this.classArr = res.result;
+						if (res.result.length == 0) {
+							uni.showToast({
+								title: '该年级未绑定班级',
+								icon: 'none',
+								duration: 2000
+							});
+						}
 					} else {
 						if (res.result.classData.update == 1) {
 							uni.showToast({
@@ -122,6 +136,12 @@ export default {
 	padding-left: 60rpx;
 }
 .grade {
+	width: 49%;
+	display: inline-block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	text-align: center;
 }
 
 .getGrade {
@@ -136,14 +156,27 @@ export default {
 	padding-top: 20rpx;
 	overflow: auto;
 }
+
+.banji {
+	width: 49%;
+	display: inline-block;
+	position: fixed;
+	top: 0;
+	right: 0;
+	text-align: center;
+}
+
 .queding {
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 100rpx;
-	height: 60rpx;
-	line-height: 60rpx;
+	width: 200rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	border-radius: 50rpx;
+	color: #fff;
 	text-align: center;
+	background-color: rgb(26, 172, 25);
 }
 </style>
