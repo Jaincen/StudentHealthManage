@@ -120,7 +120,7 @@
 				this.getCode().then((code) => {
 					this.code = code;
 				}).then((res) => {
-					this.$cloud.callFunction({
+					uniCloud.callFunction({
 						name: 'wexinSingUp',
 						data: {
 							username,
