@@ -34,7 +34,7 @@
 				<!-- 家长 -->
 				<swiper-item key="parents">
 					<view class="desc">
-						<view>小学、幼儿园，可由家长登录代替孩子填写健康状况</view>
+						<view>家长登录代替孩子填写每日健康状况</view>
 					</view>
 				</swiper-item>
 				
@@ -55,13 +55,16 @@
 					<text >没有账号？前往注册</text>
 				</navigator>
 				<!-- #ifdef MP-WEIXIN -->
-				<div class="weixinBtn">
+				<!-- <div class="weixinBtn">
 					<div>其他方式登录</div>
 					<uni-icons type="weixin" @click="loginMp" color="#007AFF" size="30"></uni-icons>
-				</div>
+				</div> -->
 				<!-- #endif -->
 				<!-- <button type="primary" @click="validateToken">token验证</button> -->
 			</view>
+            <view style="color: #999999;font-size: 14px;">
+                提示：老师可通过测试账号快速体验，用户名：teacher，密码：12345678
+            </view>
 		</view>
 	</div>
 </template>
@@ -129,7 +132,7 @@
 				uni.showLoading({
 					title: '登录中...'
 				})
-				this.$cloud.callFunction({
+				uniCloud.callFunction({
 					name: 'signIn',
 					data: {
 						username,
@@ -143,13 +146,38 @@
 						return Promise.reject(new Error(res.result.msg))
 					}
 					uni.setStorageSync('token', res.result.token)
+                    uni.setStorageSync('uid', res.result.uid)
+                    uni.setStorageSync("userType",this.userType)
 					uni.showModal({
 						content: '登录成功',
 						showCancel: false
 					})
-					uni.navigateTo({
-					    url: '/pages/index/index'
-					});
+                    
+                    if(!res.result.class_id){
+                        if(this.userType==0){
+                            uni.navigateTo({
+                                url: '/pages/teacher_bind/teacher_bind'
+                            });
+                        }else if(this.userType==1 || this.userType==2){
+                            uni.navigateTo({
+                                url:'/pages/student_bind/student_bind'
+                            })
+                        }
+                    }else{
+                        uni.setStorageSync("class_id",res.result.class_id)
+                        
+                        if(this.userType==1 || this.userType==2){
+                            uni.setStorageSync("stu_no",res.result.stu_no)
+                            uni.setStorageSync("stu_name",res.result.stu_name)
+                        }
+                        
+                        uni.navigateTo({
+                            url: '/pages/index/index'
+                        });
+                    }
+                    
+                    
+					
 				}).catch((err) => {
 					console.log(err);
 					uni.hideLoading()
@@ -167,7 +195,7 @@
 				this.getCode().then((code) => {
 					console.log('code', code);
 					const { userType } = this;
-					return this.$cloud.callFunction({
+					return uniCloud.callFunction({
 						name: 'login',
 						data: {
 							code,
@@ -214,7 +242,7 @@
 				uni.showLoading({
 					title: '加载中...'
 				});
-				this.$cloud.callFunction({
+				uniCloud.callFunction({
 					name: 'validateToken',
 					data: {
 						token: uni.getStorageSync('token')

@@ -291,7 +291,11 @@ async function signUp(event) {
 		return {
 			status: 0,
 			token,
-			msg: '登录成功'
+			msg: '登录成功',
+            uid:userInDB.data[0]._id,
+            class_id:userType==0?userInDB.data[0].class_info:userInDB.data[0].class_id,
+            stu_no:(userType==1 || userType==2)?userInDB.data[0].stu_no:'',
+            stu_name:(userType==1 || userType==2)?userInDB.data[0].stu_name:''
 		}
 	}
 
