@@ -88,7 +88,7 @@
                     alert("班级名称不允许为空！");
                     return false;
                 }
-                if (this.student_sum !== 0) {
+                if (this.student_sum == 0) {
                     alert("班级总人数不允许为0！");
                     return false;
                 }
