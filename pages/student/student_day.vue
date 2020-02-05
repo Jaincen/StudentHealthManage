@@ -45,7 +45,7 @@
 		</view>
 		<view class="uni-title  uni-common-pl">当前位置</view>
 		<view class="uni-list">
-			<radio-group name="have_symptom">
+			<radio-group name="current_location">
 				<label class="uni-list-cell uni-list-cell-pd">
 					<view>
 						<radio value="0" />
