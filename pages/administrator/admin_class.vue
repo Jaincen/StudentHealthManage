@@ -85,11 +85,17 @@
         methods: {
             submit() {
                 if (this.name == '') {
-                    alert("班级名称不允许为空！");
+                	uni.showToast({
+                		icon:"none",
+                		title:"班级名称不允许为空！"
+                		});
                     return false;
                 }
                 if (this.student_sum == 0) {
-                    alert("班级总人数不允许为0！");
+                	uni.showToast({
+                		icon:"none",
+                		title:"班级总人数不允许为0！"
+                		});
                     return false;
                 }
                 if (this.isedit == true) {

@@ -73,7 +73,10 @@
         methods: {
             submit() {
                 if (this.name == '') {
-                    alert("年级名称不允许为空！");
+					uni.showToast({
+						icon:"none",
+						title:"年级名称不允许为空！"
+						});
                     return false;
                 }
                 if (this.isedit == true) {
