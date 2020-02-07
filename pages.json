@@ -7,60 +7,60 @@
 			}
 		},
 		{
-		    "path" : "pages/register/register",
-		    "style" : {
+			"path": "pages/register/register",
+			"style": {
 				"navigationBarTitleText": "注册"
 			}
 		},
 		{
-		    "path" : "pages/login/login",
-		    "style" : {
+			"path": "pages/login/login",
+			"style": {
 				"navigationBarTitleText": "登录"
 			}
 		},
 		{
-		    "path" : "pages/weixinRegister/weixinRegister",
-		    "style" : {
+			"path": "pages/weixinRegister/weixinRegister",
+			"style": {
 				"navigationBarTitleText": "微信注册"
 			}
 		},
-        {
-            "path":"pages/student/student_day",
-            "style":{
-                "navigationBarTitleText":"健康报备"
-            }
-        },
-        {
-            "path":"pages/administrator/admin_grade",
-            "style":{
-                "navigationBarTitleText":"年级管理"
-            }
-        },
-        {
-            "path":"pages/administrator/admin_class",
-            "style":{
-                "navigationBarTitleText":"班级管理"
-            }
-        },
-        {
-        	"path": "pages/list/list",
-        	"style": {
-        		"navigationBarTitleText": "健康统计汇总"
-        	}
-        },
-        {
-            "path": "pages/teacher_bind/teacher_bind",
-            "style": {
-                "navigationBarTitleText": "绑定班级"
-            }
-        },
-        {
-            "path": "pages/student_bind/student_bind",
-            "style": {
-                "navigationBarTitleText": "绑定学生信息"
-            }
-        }
-    ],
+		{
+			"path": "pages/student/student_day",
+			"style": {
+				"navigationBarTitleText": "健康报备"
+			}
+		},
+		{
+			"path": "pages/administrator/admin_grade",
+			"style": {
+				"navigationBarTitleText": "年级管理"
+			}
+		},
+		{
+			"path": "pages/administrator/admin_class",
+			"style": {
+				"navigationBarTitleText": "班级管理"
+			}
+		},
+		{
+			"path": "pages/list/list",
+			"style": {
+				"navigationBarTitleText": "健康统计汇总"
+			}
+		},
+		{
+			"path": "pages/teacher_bind/teacher_bind",
+			"style": {
+				"navigationBarTitleText": "绑定班级"
+			}
+		},
+		{
+			"path": "pages/student_bind/student_bind",
+			"style": {
+				"navigationBarTitleText": "绑定学生信息"
+			}
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

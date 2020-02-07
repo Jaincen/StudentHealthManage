@@ -1,7 +1,6 @@
 <!-- 绑定学生信息 -->
 <template>
-    <view>
-        
+    <view class="margin-lr">
         <view class="uni-list" style="margin-top: 30px;">
             <view class="uni-list-cell">
                 <view class="uni-list-cell-left">
@@ -26,14 +25,14 @@
             </view>
         </view>
         
-        <view class="uni-title  uni-common-pl">学号</view>
-        <view class="uni-form-item">
-            <input class="uni-input" type="text" name="stu_num" value="" placeholder="请输入学号" v-model="stu_no" />
+        <view class="uni-title  uni-common-pl margin-top">学号</view>
+        <view class="uni-form-item dashed-bottom">
+            <input class="uni-input" type="text" name="stu_num" value="" placeholder="请输入学号" v-model="stu_num" />
         </view>
         
         
         <view class="uni-title  uni-common-pl">姓名</view>
-        <view class="uni-form-item">
+        <view class="uni-form-item dashed-bottom">
             <input class="uni-input" type="text" name="stu_name" value="" placeholder="请输入学生姓名" v-model="stu_name" />
         </view>
        
@@ -56,7 +55,7 @@
                classArr: [], //  特定年级下的班级
                classIndex: "", //班级索引
                className:'',
-               stu_no:"",
+               stu_num:"",
                stu_name:""//学生姓名
             }
         },
@@ -89,7 +88,7 @@
                 this.className = this.classArr[this.classIndex].name
             },
 
-            bind() {
+            bind: function() {
                 uni.showLoading({})
                 uniCloud.callFunction({
                     name: 'StudentBind',
@@ -99,13 +98,16 @@
                         token: uni.getStorageSync("token"),
                         uid: uni.getStorageSync("uid"),
                         userType: uni.getStorageSync("userType"),
-                        stu_no:this.stu_no,
+                        stu_num:this.stu_num,
                         stu_name:this.stu_name
                     }
                 })
                 .then(res => {
                     uni.hideLoading();
                     console.log(res);
+					uni.setStorageSync('stu_num',this.stu_num)
+					uni.setStorageSync('stu_name',this.stu_name)
+					uni.setStorageSync('class_id',this.classArr[this.classIndex]._id)
                     uni.showToast({
                         title: '绑定成功',
                         duration: 2000,
@@ -126,5 +128,7 @@
 </script>
 
 <style>
-
+.buttonGroup{
+	margin-top: 150rpx;
+}
 </style>

@@ -1,20 +1,13 @@
 <!-- 用户登录 邯郸-前端-秦少卫 -->
 <template>
 	<div>
-		<div>
-			<div class="cu-bar bg-white margin-top solid-bottom">
-				<div class="action">
-					<text class="cuIcon-titles text-orange"></text>
-				</div>
-			</div>
-
-		</div>
 		<view class="container">
 			<view class="title">
-				<text>学生健康报备系统</text>
+				<text>{{school}}学生健康报备系统</text>
 			</view>
 
-			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="userType" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
+			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="userType" tab-class="text-center text-black bg-white swiper-title"
+			 select-class="text-blue" />
 			<swiper :current="userType" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
 			 indicator-active-color="rgba(255,255,255,0)">
 				<!-- 老师 -->
@@ -23,7 +16,7 @@
 						<view>老师登录，查看自己班级的学生健康数据统计</view>
 					</view>
 				</swiper-item>
-				
+
 				<!-- 学生 -->
 				<swiper-item key="students">
 					<view class="desc">
@@ -37,13 +30,13 @@
 						<view>家长登录代替孩子填写每日健康状况</view>
 					</view>
 				</swiper-item>
-				
+
 				<!-- 管理员 -->
-				<!-- <swiper-item key="admin">
+				<swiper-item key="admin">
 					<view class="desc">
 						<view>管理员模式</view>
 					</view>
-				</swiper-item> -->
+				</swiper-item>
 			</swiper>
 			<view class="login-form">
 				<input type="text" value="" placeholder="请输入用户名" v-model="username" />
@@ -51,20 +44,12 @@
 				<div class="buttonGroup">
 					<button type="primary" @click="signIn">登录</button>
 				</div>
-				<navigator url="/pages/register/register" class="linkBtn" open-type="redirect">
-					<text >没有账号？前往注册</text>
-				</navigator>
-				<!-- #ifdef MP-WEIXIN -->
-				<!-- <div class="weixinBtn">
-					<div>其他方式登录</div>
-					<uni-icons type="weixin" @click="loginMp" color="#007AFF" size="30"></uni-icons>
-				</div> -->
-				<!-- #endif -->
-				<!-- <button type="primary" @click="validateToken">token验证</button> -->
+				<view class="text-right">
+					<navigator url="/pages/register/register" class="linkBtn" open-type="redirect">
+						<text>没有账号？前往注册</text>
+					</navigator>
+				</view>
 			</view>
-            <view style="color: #999999;font-size: 14px;">
-                提示：老师可通过测试账号快速体验，用户名：teacher，密码：12345678
-            </view>
 		</view>
 	</div>
 </template>
@@ -87,13 +72,14 @@
 					{
 						name: '家长',
 						icon: 'cuIcon-wifi'
+					},
+					{
+						name: '管理员',
+						icon: 'cuIcon-wifi'
 					}
-					// {
-					// 	name: '管理员',
-					// 	icon: 'cuIcon-wifi'
-					// }
 				],
 				userType: 0,
+				school:''
 			};
 		},
 		components: {
@@ -102,6 +88,7 @@
 		},
 		computed: {},
 		onLoad() {
+			this.school = uni.getStorageSync('school')
 		},
 		methods: {
 			tabChange(index) {
@@ -113,22 +100,6 @@
 					password,
 					userType,
 				} = this
-                
-                if (username.length < 3) {
-                	uni.showModal({
-                		content: '用户名长度均不能小于3',
-                		showCancel: false
-                	})
-                	return
-                }
-                
-				if (password.length < 6) {
-					uni.showModal({
-						content: '密码长度均不能小于6',
-						showCancel: false
-					})
-					return
-				}
 				uni.showLoading({
 					title: '登录中...'
 				})
@@ -140,44 +111,57 @@
 						userType,
 					},
 				}).then((res) => {
-					console.log(res);
+					console.log('返回的', res);
 					uni.hideLoading()
 					if (res.result.status !== 0) {
 						return Promise.reject(new Error(res.result.msg))
 					}
 					uni.setStorageSync('token', res.result.token)
-                    uni.setStorageSync('uid', res.result.uid)
-                    uni.setStorageSync("userType",this.userType)
+					uni.setStorageSync('uid', res.result.uid)
+					uni.setStorageSync("userType", this.userType)
 					uni.showModal({
 						content: '登录成功',
 						showCancel: false
 					})
-                    
-                    if(!res.result.class_id){
-                        if(this.userType==0){
-                            uni.navigateTo({
-                                url: '/pages/teacher_bind/teacher_bind'
-                            });
-                        }else if(this.userType==1 || this.userType==2){
-                            uni.navigateTo({
-                                url:'/pages/student_bind/student_bind'
-                            })
-                        }
-                    }else{
-                        uni.setStorageSync("class_id",res.result.class_id)
-                        
-                        if(this.userType==1 || this.userType==2){
-                            uni.setStorageSync("stu_no",res.result.stu_no)
-                            uni.setStorageSync("stu_name",res.result.stu_name)
-                        }
-                        
-                        uni.navigateTo({
-                            url: '/pages/index/index'
-                        });
-                    }
-                    
-                    
+
+					if (!res.result.class_id) {
+						switch (this.userType){
+							case 0:
+							uni.navigateTo({
+								url: '/pages/teacher_bind/teacher_bind'
+							});
+								break;
+							case 1:
+							uni.navigateTo({
+								url: '/pages/student_bind/student_bind'
+							})
+								break;
+							case 2:
+							uni.navigateTo({
+								url: '/pages/student_bind/student_bind'
+							})
+								break;
+							case 3:
+							uni.navigateTo({
+								url: '/pages/administrator/admin_grade'
+							})
+								break;
+						}
+					} else {
+						uni.setStorageSync("class_id", res.result.class_id)
+
+						if (this.userType == 1 || this.userType == 2) {
+							uni.setStorageSync("stu_num", res.result.stu_num)
+							uni.setStorageSync("stu_name", res.result.stu_name)
+						}
+
+						uni.navigateTo({
+							url: '/pages/index/index'
+						});
+					}
 					
+
+
 				}).catch((err) => {
 					console.log(err);
 					uni.hideLoading()
@@ -191,10 +175,12 @@
 				uni.showLoading({
 					title: '登录中...'
 				})
-				
+
 				this.getCode().then((code) => {
 					console.log('code', code);
-					const { userType } = this;
+					const {
+						userType
+					} = this;
 					return uniCloud.callFunction({
 						name: 'login',
 						data: {
@@ -269,13 +255,42 @@
 </script>
 
 <style>
-	.weixinBtn{ color: #007AFF; text-align: center; font-size: 22upx; border-top: 1upx #333333 solid; margin-top: 50upx; padding-top: 50upx;}
-	.weixinBtn div{ color: #333333; margin-bottom: 20upx;}
-	.linkBtn{ color: #007AFF; text-align: right; font-size: 22upx;}
-	.swiper{ height: 100upx;}
-	.swiper-title{ font-size: 30upx;}
-	.buttonGroup{ display: flex;}
-	.buttonGroup navigator{margin-right: 20upx; flex: 1;}
+	.weixinBtn {
+		color: #007AFF;
+		text-align: center;
+		font-size: 22upx;
+		border-top: 1upx #333333 solid;
+		margin-top: 50upx;
+		padding-top: 50upx;
+	}
+
+	.weixinBtn div {
+		color: #333333;
+		margin-bottom: 20upx;
+	}
+
+	.linkBtn {
+		color: #007AFF;
+		font-size: 22upx;
+	}
+
+	.swiper {
+		height: 100upx;
+	}
+
+	.swiper-title {
+		font-size: 30upx;
+	}
+
+	.buttonGroup {
+		display: flex;
+	}
+
+	.buttonGroup navigator {
+		margin-right: 20upx;
+		flex: 1;
+	}
+
 	.container {
 		padding: 30px;
 	}
@@ -305,4 +320,6 @@
 		width: 100%;
 		margin-bottom: 10px;
 	}
+
+	
 </style>

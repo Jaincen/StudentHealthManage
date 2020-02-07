@@ -1,16 +1,9 @@
 <!-- 用户注册 邯郸-前端-秦少卫 -->
 <template>
-	<div>
-		<div>
-			<div class="cu-bar bg-white margin-top solid-bottom">
-				<div class="action">
-					<text class="cuIcon-titles text-orange"></text>
-				</div>
-			</div>
-		</div>
+	<view>
 		<view class="container">
 			<view class="title">
-				<text>学生健康报备系统</text>
+				<text>{{school}}学生健康报备系统</text>
 			</view>
 			<wuc-tab textFlex :tab-list="tabList" :tabCur.sync="userType" tab-class="text-center text-black bg-white swiper-title" select-class="text-blue" />
 			<swiper :current="userType" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
@@ -18,13 +11,13 @@
 				<!-- 老师 -->
 				<swiper-item key="teacher">
 					<view class="desc">
-						<view>老师注册后可查看自己班级的学生监控状况</view>
+						<view>老师登录，查看自己班级的学生健康数据统计</view>
 					</view>
 				</swiper-item>
 				
 				<!-- 学生 -->
 				<swiper-item key="students">
-					<view class="desc">
+					<view class="desc ">
 						<view>学生注册后可关联自己的班级上报健康状况</view>
 					</view>
 				</swiper-item>
@@ -35,8 +28,14 @@
 						<view>家长注册可代替孩子进行健康状况上报</view>
 					</view>
 				</swiper-item>
+				<!-- 管理员 -->
+				<swiper-item key="admin">
+					<view class="desc">
+						<view>管理员模式,管理班级等信息</view>
+					</view>
+				</swiper-item>
 			</swiper>
-			<view class="login-form">
+			<view class="login-form margin-top">
 				<input type="text" value="" placeholder="请输入用户名" v-model="username" />
 				<input type="text" value="" placeholder="请输入密码" password="true" v-model="password" />
 				<input type="text" value="" placeholder="请再次确认密码" password="true" v-model="repeatPassword" />
@@ -56,7 +55,7 @@
 				<!-- #endif -->
 			</view>
 		</view>
-	</div>
+	</view>
 </template>
 <script>
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
@@ -79,9 +78,14 @@
 					{
 						name: '家长',
 						icon: 'cuIcon-wifi'
+					},
+					{
+						name: '管理员',
+						icon: 'cuIcon-wifi'
 					}
 				],
 				userType: 0,
+				school:''
 			};
 		},
 		components: {
@@ -90,6 +94,7 @@
 		},
 		computed: {},
 		onLoad() {
+			this.school = uni.getStorageSync('school')
 		},
 		methods: {
 			tabChange(index) {
@@ -109,20 +114,21 @@
 					})
 					return 
 				}
-				if (username.length < 3) {
+				if(username.indexOf('ls') && this.userType == 0){
 					uni.showModal({
-						content: '用户名长度均不能小于3',
+						content: '老师的注册方式请咨询管理员',
 						showCancel: false
 					})
-					return
+					return 
 				}
-                if (password.length < 6) {
+				if(username.indexOf('admin')  && this.userType == 3){
 					uni.showModal({
-						content: '密码长度均不能小于6',
+						content: '您不是管理，请离开',
 						showCancel: false
 					})
-					return
+					return 
 				}
+				console.log(userType);
 				uni.showLoading({
 					title: '注册中...'
 				})

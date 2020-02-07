@@ -17,7 +17,7 @@
 			class="list"
 			:class="{ listBgc: index % 2 == 0, listOne: index == 0, listFinally: index == stat - 1 }"
 			v-for="(item, index) in arr"
-			:key="item"
+			:key="index"
 		>
 			<view class="top">
 				<view class="id">学号:{{ item.stu_num }}</view>
@@ -60,9 +60,15 @@ export default {
 		uniCalendar
 	},
 	onLoad(data) {
-		this.class_id = uni.getStorageSync("class_id")
-		this.time = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + myDate.getDate();
-		this.http();
+		if (uni.getStorageSync('token')) {
+			this.class_id = uni.getStorageSync("class_id")
+			this.time = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + myDate.getDate();
+			this.http();
+		}else{
+			uni.navigateTo({
+				url:'../login/login'
+			})
+		}
 	},
 	methods: {
 		change(e) {

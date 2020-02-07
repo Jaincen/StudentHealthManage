@@ -266,8 +266,7 @@ async function signUp(event) {
 	const userDBkye = userTypeConfig(userType);
 	const userInDB = await db.collection(userDBkye).where({
 		username,
-		//管理员不加密 使用明文
-		password: userDBkye === 'admin_users' ? password : encryptPassword(password),
+		password: encryptPassword(password),
 	}).get();
 	// 增加用户类型返回给前端
 	userInfo.userType = userType;
@@ -294,7 +293,7 @@ async function signUp(event) {
 			msg: '登录成功',
             uid:userInDB.data[0]._id,
             class_id:userType==0?userInDB.data[0].class_info:userInDB.data[0].class_id,
-            stu_no:(userType==1 || userType==2)?userInDB.data[0].stu_no:'',
+            stu_num:(userType==1 || userType==2)?userInDB.data[0].stu_num:'',
             stu_name:(userType==1 || userType==2)?userInDB.data[0].stu_name:''
 		}
 	}

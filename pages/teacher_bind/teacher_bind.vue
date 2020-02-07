@@ -25,8 +25,9 @@
                 </view>
             </view>
         </view>
-        <view class="buttonGroup">
-        	<button type="primary" @click="bind">确定</button>
+        <view class="buttonGroup" style="margin-top: 150rpx;">
+        	<button type="primary" style="margin-bottom: 10rpx;" @click="bind">确定</button>
+        	<button type="primary" @click="go_back">返回</button>
         </view>
     </view>
 </template>
@@ -46,20 +47,30 @@
             };
         },
         onLoad(data) {
-            this.teacher_id = uni.getStorageSync("uid")
-            uniCloud.callFunction({
-                name: 'getClassList',
-            })
-            .then(res => {
-                console.log(res);
-                this.classList = res.result
-                this.gradeArr = res.result.gradeList
-            })
-            .catch(err => {
-                uni.hideLoading();
-                console.error(err);
-            });
-
+			this.teacher_id = uni.getStorageSync("uid")
+			uniCloud.callFunction({
+			    name: 'getClassList',
+			})
+			.then(res => {
+			    console.log(res);
+			    this.classList = res.result
+			    this.gradeArr = res.result.gradeList
+				if (uni.getStorageSync('class_id')) {
+					uni.showModal({
+						title:'提示',
+						content:'您已经设置过班级信息了，真的要重新绑定吗？',
+						success: (res) => {
+							if (res.cancel) {
+								this.go_back()
+							}
+						}
+					})
+				}
+			})
+			.catch(err => {
+			    uni.hideLoading();
+			    console.error(err);
+			});
         },
         methods: {
 
@@ -102,15 +113,23 @@
                         console.error(err);
                     });
 
-            }
+            },
+			go_back: function() {
+				if (getCurrentPages().length > 1) {
+					uni.navigateBack();
+				} else {
+					uni.switchTab({
+						url: '../index/index'
+					})
+				}
+			},
         }
     };
 </script>
 
 <style lang="scss">
     .body {
-        padding-top: 20rpx;
-        padding-left: 60rpx;
+        padding: 60rpx;
     }
 
     .grade {

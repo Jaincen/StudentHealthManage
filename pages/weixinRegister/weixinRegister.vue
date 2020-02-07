@@ -1,14 +1,6 @@
 <!-- 微信注册 邯郸-前端-秦少卫 -->
 <template>
 	<div>
-		<div>
-			<div class="cu-bar bg-white margin-top solid-bottom">
-				<div class="action">
-					<text class="cuIcon-titles text-orange"></text>
-				</div>
-			</div>
-
-		</div>
 		<view class="container">
 			<view class="title">
 				<text>学生报备系统</text>
