@@ -44,7 +44,7 @@
 import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
 
 const myDate = new Date();
-const nextDate = new Date(myDate.getTime() + 24*60*60*1000);
+const nextDate = new Date(myDate.getTime() + 24*60*60*1000); 
 //let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate.getDate() + 1);
 let time2 = nextDate.getFullYear() + '/' + (nextDate.getMonth() + 1) + '/' + (nextDate.getDate() + 1);
 export default {
