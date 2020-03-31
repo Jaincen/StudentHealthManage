@@ -10,12 +10,15 @@
 
 		</view>
 		<!-- 学生家长 -->
-		<view class="buttonGroup" v-if="userType === 1 || userType === 2">
+		<view class="buttonGroup" v-if="userType === 1 ">
 			<!-- <navigator url="../student_bind/student_bind" class="linkBtn" >
 				绑定学生信息
 			</navigator> -->
 			<navigator url="../student/student_day" class="linkBtn">
 				今日健康报备
+			</navigator>
+			<navigator url="../student_bind/reset_passwd/reset_passwd" class="linkBtn">
+				修改密码
 			</navigator>
 		</view>
 		<!-- 老师 -->
@@ -29,7 +32,7 @@
 			</navigator>
 		</view>
 		<!-- 管理员 -->
-		<view class="buttonGroup" v-if="userType === 3">
+		<view class="buttonGroup" v-if="userType === 2">
 			<navigator url="../administrator/admin_grade" class="linkBtn">
 				年级管理
 			</navigator>
@@ -82,8 +85,8 @@
 				const userOptionDB = {
 					0: '老师',
 					1: '学生',
-					2: '家长',
-					3: '管理员',
+					//2: '家长',
+					2: '管理员',
 				}
 				return userOptionDB[userType];
 			},
@@ -171,7 +174,6 @@
 		width: 100%;
 		margin-bottom: 40upx;
 	}
-
 	.buttonGroup .linkBtn {
 		font-size: 30upx;
 		display: block;

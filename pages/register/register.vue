@@ -22,12 +22,7 @@
 					</view>
 				</swiper-item>
 		
-				<!-- 家长 -->
-				<swiper-item key="parents">
-					<view class="desc">
-						<view>家长注册可代替孩子进行健康状况上报</view>
-					</view>
-				</swiper-item>
+				
 				<!-- 管理员 -->
 				<swiper-item key="admin">
 					<view class="desc">
@@ -75,16 +70,16 @@
 						name: '学生',
 						icon: 'cuIcon-dianhua'
 					},
-					{
-						name: '家长',
-						icon: 'cuIcon-wifi'
-					},
+					// {
+					// 	name: '家长',
+					// 	icon: 'cuIcon-wifi'
+					// },
 					{
 						name: '管理员',
 						icon: 'cuIcon-wifi'
 					}
 				],
-				userType: 0,
+				userType: 1,
 				school:''
 			};
 		},
@@ -101,6 +96,12 @@
 				this.userType = index;
 			},
 			signUp() {
+				
+				//for(var i = 0;i<3;i++){
+				// this.username = 'hhh'+i.toString();
+				// this.password = '123456';
+				// this.userType = 1;
+				//window.alert(username);
 				const {
 					username,
 					password,
@@ -121,7 +122,7 @@
 					})
 					return 
 				}
-				if(username.indexOf('admin')  && this.userType == 3){
+				if(username.indexOf('admin')  && this.userType == 2){
 					uni.showModal({
 						content: '您不是管理，请离开',
 						showCancel: false
@@ -132,6 +133,10 @@
 				uni.showLoading({
 					title: '注册中...'
 				})
+				
+				//for(int i = 0; i < 10; 1++ ){
+					
+					
 				
 				uniCloud.callFunction({
 					name: 'signUp',
@@ -166,6 +171,7 @@
 						showCancel: false
 					})
 				})
+				//}//循环
 			},
 			validateToken() {
 				uni.showLoading({

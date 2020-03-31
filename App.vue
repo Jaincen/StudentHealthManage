@@ -2,7 +2,7 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			uni.setStorageSync('school','执信小学')
+			uni.setStorageSync('school','')
 		},
 		onShow: function() {
 			console.log('App Show')

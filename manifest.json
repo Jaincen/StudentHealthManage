@@ -1,5 +1,5 @@
 {
-    "name" : "test-unicloud-30",
+    "name" : "iot172",
     "appid" : "__UNI__EABE7B7",
     "description" : "",
     "versionName" : "1.0.0",
@@ -72,5 +72,9 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "h5" : {
+        "title" : "JSJ",
+        "domain" : "106.14.135.200"
     }
 }

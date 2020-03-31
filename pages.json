@@ -31,6 +31,12 @@
 			}
 		},
 		{
+			"path": "pages/student_bind/reset_passwd/reset_passwd",
+			"style": {
+				"navigationBarTitleText": "密码修改"
+			}
+		},
+		{
 			"path": "pages/administrator/admin_grade",
 			"style": {
 				"navigationBarTitleText": "年级管理"
@@ -60,7 +66,21 @@
 				"navigationBarTitleText": "绑定学生信息"
 			}
 		}
-	],
+        ,{
+            "path" : "pages/importData/importData",
+            "style" : {
+				"navigationBarTitleText": "数据导入"
+				
+			}
+        }
+        ,{
+            "path" : "pages/test/test",
+            "style" : {
+				"navigationBarTitleText": "测试"
+				
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

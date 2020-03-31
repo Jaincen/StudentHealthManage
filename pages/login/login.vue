@@ -2,6 +2,9 @@
 <template>
 	<div>
 		<view class="container">
+			<div class="box">
+				<img src="/static/logo.png" ></img>
+			</div>
 			<view class="title">
 				<text>{{school}}学生健康报备系统</text>
 			</view>
@@ -24,12 +27,7 @@
 					</view>
 				</swiper-item>
 
-				<!-- 家长 -->
-				<swiper-item key="parents">
-					<view class="desc">
-						<view>家长登录代替孩子填写每日健康状况</view>
-					</view>
-				</swiper-item>
+				
 
 				<!-- 管理员 -->
 				<swiper-item key="admin">
@@ -69,16 +67,16 @@
 						name: '学生',
 						icon: 'cuIcon-dianhua'
 					},
-					{
-						name: '家长',
-						icon: 'cuIcon-wifi'
-					},
+					// {
+					// 	name: '家长',
+					// 	icon: 'cuIcon-wifi'
+					// },
 					{
 						name: '管理员',
 						icon: 'cuIcon-wifi'
 					}
 				],
-				userType: 0,
+				userType: 1,
 				school:''
 			};
 		},
@@ -136,12 +134,12 @@
 								url: '/pages/student_bind/student_bind'
 							})
 								break;
+							// case 2:
+							// uni.navigateTo({
+							// 	url: '/pages/student_bind/student_bind'
+							// })
+							// 	break;
 							case 2:
-							uni.navigateTo({
-								url: '/pages/student_bind/student_bind'
-							})
-								break;
-							case 3:
 							uni.navigateTo({
 								url: '/pages/administrator/admin_grade'
 							})
@@ -150,7 +148,7 @@
 					} else {
 						uni.setStorageSync("class_id", res.result.class_id)
 
-						if (this.userType == 1 || this.userType == 2) {
+						if (this.userType == 1) {
 							uni.setStorageSync("stu_num", res.result.stu_num)
 							uni.setStorageSync("stu_name", res.result.stu_name)
 						}
@@ -308,6 +306,11 @@
 		line-height: 22px;
 		color: #999999;
 	}
+	.box{
+			text-align: center;
+			vertical-align: middle;
+		}
+	
 
 	.login-form input {
 		height: 40px;

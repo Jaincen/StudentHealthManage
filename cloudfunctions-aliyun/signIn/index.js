@@ -244,8 +244,8 @@ function userTypeConfig(userType) {
 	const userOptionDB = {
 		0:'teachers',
 		1:'students',
-		2:'parents',
-		3:'admin_users',
+		//2:'parents',
+		2:'admin_users',
 	};
 	return userOptionDB[userType];
 }
@@ -293,8 +293,8 @@ async function signUp(event) {
 			msg: '登录成功',
             uid:userInDB.data[0]._id,
             class_id:userType==0?userInDB.data[0].class_info:userInDB.data[0].class_id,
-            stu_num:(userType==1 || userType==2)?userInDB.data[0].stu_num:'',
-            stu_name:(userType==1 || userType==2)?userInDB.data[0].stu_name:''
+            stu_num:userType==1 ?userInDB.data[0].stu_num:'',
+            stu_name:userType==1 ?userInDB.data[0].stu_name:''
 		}
 	}
 

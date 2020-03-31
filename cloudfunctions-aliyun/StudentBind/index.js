@@ -9,7 +9,7 @@ function userTypeConfig(userType) {
 	const userOptionDB = {
 		0:'teachers',
 		1:'students',
-		2:'parents',
+		2:'admin_users',
 	};
 	return userOptionDB[userType];
 }

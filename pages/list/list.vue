@@ -12,8 +12,9 @@
 				<span>{{ time }}</span>
 			</view>
 		</view>
+		<button type="primary" @click="saveFile">导出</button>
 		<view
-			:style="{ color: item.temperature > 37 || item.contact_like_virus == 1 || item.Suspected_symptoms == 1 ? '#f00' : '#000' }"
+			:style="{ color: item.temperature > 37.1 || item.contact_like_virus == 1 || item.Suspected_symptoms == 1 ? '#f00' : '#000' }"
 			class="list"
 			:class="{ listBgc: index % 2 == 0, listOne: index == 0, listFinally: index == stat - 1 }"
 			v-for="(item, index) in arr"
@@ -27,7 +28,7 @@
                 </view>
 			</view>
 			<view class="top">
-				{{ item.current_pos == 2 ? '在湖北' : item.current_pos == 1 ? '在外地' : '在本地' }}, 今日体温:{{ item.temperature }},
+				{{ item.current_location == 2 ? '在湖北' : item.current_location== 1 ? '在外地' : '在本地' }}, 今日体温:{{ item.temperature }},
 				{{ item.contact_virus == 0 ? '未接触湖北地区人员' : '接触过湖北地区人员' }}, {{ item.have_symptom == 0 ? '无疑似症状' : '出现过疑似症状' }}
 			</view>
 		</view>
@@ -43,7 +44,9 @@
 import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
 
 const myDate = new Date();
-let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate.getDate() + 1);
+const nextDate = new Date(myDate.getTime() + 24*60*60*1000);
+//let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate.getDate() + 1);
+let time2 = nextDate.getFullYear() + '/' + (nextDate.getMonth() + 1) + '/' + (nextDate.getDate() + 1);
 export default {
 	data() {
 		return {
@@ -71,6 +74,7 @@ export default {
 		}
 	},
 	methods: {
+		
 		change(e) {
 			console.log(e);
 			time2 = e.year + '/' + e.month + '/' + (e.date + 1);
@@ -85,6 +89,7 @@ export default {
 			uni.showLoading({
 				title: '处理中...'
 			});
+			
 			let start = new Date(this.time).getTime();
 			let start2 = new Date(time2).getTime();
 			uniCloud.callFunction({
@@ -119,14 +124,53 @@ export default {
 						};
 					};
 					this.arr.sort(objectArraySort('stu_num'));
+					console.log(this.arr[0].current_pos);
 				})
 				.catch(err => {
 					uni.hideLoading();
 					console.error(err);
 				});
+		},
+		saveFile(){
+			//window.alert("hello");
+			//let str = '学号'+'\t'+','+'姓名'+'\t'+','+'体温'+'\t'+'\n';
+			let str = '<tr><td>学号</td><td>姓名</td><td>体温</td><td>是否回苏州(常熟)</td></tr>';
+			for(let i = 0; i<this.arr.length;i++){
+				let flag;
+				if(this.arr[i].Come_Suzhou == "1") flag = '是';
+				else flag = '否';
+				str+='<tr>';
+				str += '<td>'+'&nbsp;'+ this.arr[i].stu_num.toString()+'\t'+'</td>' 
+				    + '<td>' + this.arr[i].stu_name+'\t'+'</td>'
+				    + '<td>' + this.arr[i].temperature+'\t'+'</td>'
+					+ '<td>' + flag +'\t'+'</td>'
+				   // + '\n'
+			    str += '</tr>';
+			}
+			let worksheet = 'Sheet1';			
+			//let uri = 'data:application/vnd.ms-excel;charset=utf-8,' 
+			        //+ encodeURIComponent(str);
+			let template = `<html xmlns:o="urn:schemas-microsoft-com:office:office" 
+				  xmlns:x="urn:schemas-microsoft-com:office:excel" 
+				  xmlns="http://www.w3.org/TR/REC-html40">
+				  <head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+					<x:Name>${worksheet}</x:Name>
+					<x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
+					</x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+					</head><body><table>${str}</table></body></html>`;
+			let uri = 'data:application/vnd.ms-excel;base64,'+window.btoa(unescape(encodeURIComponent(template)));
+			var link = document.createElement("a");
+			link.href = uri;
+			//对下载的文件命名
+			var time = new Date();
+			link.download = time.getTime().toString() + ".xls";
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
 		}
 	}
 };
+
 </script>
 
 <style lang="scss">
