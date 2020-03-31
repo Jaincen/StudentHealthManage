@@ -18,7 +18,7 @@ exports.main = async (event, context) => {
 		if(new_time.toDateString() === registerTime.toDateString()){
 			collection.doc(res.data[i]._id).remove() //删除
 		}
-			
+			 
 	}
 	// 添加记录
 	const res_add = await collection.add(event)
