@@ -46,7 +46,7 @@ import uniCalendar from '@/components/uni-calendar/uni-calendar.vue';
 const myDate = new Date();
 const nextDate = new Date(myDate.getTime() + 24*60*60*1000); 
 //let time2 = myDate.getFullYear() + '/' + (myDate.getMonth() + 1) + '/' + (myDate.getDate() + 1);
-let time2 = nextDate.getFullYear() + '/' + (nextDate.getMonth() + 1) + '/' + (nextDate.getDate() + 1);
+let time2 = nextDate.getFullYear() + '/' + (nextDate.getMonth() + 1) + '/' + (nextDate.getDate());
 export default {
 	data() {
 		return {
@@ -77,7 +77,10 @@ export default {
 		
 		change(e) {
 			console.log(e);
-			time2 = e.year + '/' + e.month + '/' + (e.date + 1);
+			var tempDate = new Date(e.year + '/' + e.month + '/' + e.date);
+			var dateTime2 = new Date(tempDate.getTime() + 24 * 60 * 60 * 1000);
+			console.log(dateTime2);
+			time2 = dateTime2.getFullYear() + '/' + (dateTime2.getMonth() + 1) + '/' + (dateTime2.getDate()); //e.year + '/' + e.month + '/' + (e.date + 1);
 			let str = e.year + '/' + e.month + '/' + e.date;
 			if (this.time != str) {
 				this.time = str;
